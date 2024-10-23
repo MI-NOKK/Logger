@@ -9,11 +9,11 @@ namespace logger
     static class Programs
     {
         [STAThread]
-        static void main(string[] args)
+        static void Main(string[] args)
         {
             Log log = new Log("Project");
 
-            log.WriteLine("프로젝트 시작점입니다.");
+            log.Write("프로젝트 시작점입니다.");
         }
 
     }

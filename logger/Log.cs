@@ -8,10 +8,7 @@ namespace logger
 {
     class Log
     {
-        private readonly string stringFileName = "ProjectName"; // 로그 파일 이름을 저장하는 상수
         private readonly string projectName; // 로그를 남기는 프로젝트
-        private bool disposed = false; // Dispose 패턴을 사용하기 위한 플래그
-
         private static readonly object fileLock = new object(); // 다중 스레드 환경에서 파일 접근을 동기화하기 위한 락 객체
 
         private const long MaxFileSize = 2 * 1024 * 1024; // 파일의 최대 크기를 2MB로 설정
@@ -45,25 +42,7 @@ namespace logger
             WriteToFile(logLevel, message); // 해당 레벨로 로그 기록
         }
 
-        /// <summary>
-        /// 한 줄로 로그를 기록하는 함수 (기본 "INFO" 레벨)
-        /// </summary>
-        /// <param name="message">로그에 남길 문자열</param>
-        public void WriteLine(string message)
-        {
-            WriteToFile("INFO", message); // INFO 레벨로 로그 기록
-        }
-
-        /// <summary>
-        /// 지정된 로그 레벨로 한 줄 로그를 기록하는 함수
-        /// </summary>
-        /// <param name="logLevel"></param>
-        /// <param name="message"></param>
-        public void WriteLine(string logLevel, string message)
-        {
-            WriteToFile(logLevel, message); // 해당 레벨로 로그 기록
-        }
-
+      
         /// <summary>
         /// 실제로 파일에 로그를 기록하는 함수
         /// </summary>
@@ -81,16 +60,12 @@ namespace logger
                     {
                         using (StreamWriter writer = new StreamWriter(fileStream)) // 파일에 기록하기 위한 스트림 객체
                         {
-                            string writeMessage = $"{logLevel}:{projectName}:{DateTime.Now:yyyy-MM-dd HH:mm:ss}:{message}"; // 로그 메시지 형식 정의
+                            string writeMessage = $"{logLevel} : {projectName} : {DateTime.Now:yyyy-MM-dd HH:mm:ss} : {message}"; // 로그 메시지 형식 정의
                             writer.WriteLine(writeMessage); // 메시지 파일에 기록
                         }
                     }
                 }
-                catch (IOException ex) // 파일 접근 중 오류 발생 시 처리
-                {
-                    Console.WriteLine($"파일 접근 중 오류 발생: {ex.Message}"); // 오류 메시지 출력
-                }
-                catch (Exception ex) // 일반적인 예외 처리
+                catch (Exception ex)
                 {
                     Console.WriteLine($"파일 접근 중 오류 발생: {ex.Message}"); // 오류 메시지 출력
                 }
@@ -117,14 +92,14 @@ namespace logger
         private string GenerateFilename() 
         {
 
-            string curDirPath = "\\log"; // 로그 파일이 저장될 경로 생성
+            string curDirPath = GetLogDirectoryPath(); // 로그 파일이 저장될 경로 생성
 
             if (!Directory.Exists(curDirPath)) // 해당 경로가 없으면
             {
                 Directory.CreateDirectory(curDirPath); // 로그 폴더를 생성
             }
 
-            string stringPath = Path.Combine(curDirPath, this.stringFileName + ".log"); // 로그 파일 경로와 이름을 결합하여 반환
+            string stringPath = Path.Combine(curDirPath, this.projectName + ".log"); // 로그 파일 경로와 이름을 결합하여 반환
 
             return stringPath; // 로그 파일 경로 반환
         }
@@ -135,7 +110,7 @@ namespace logger
         /// <returns></returns>
         private string GetLogDirectoryPath()
         {
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "linkRai", "log"); // 앱 데이터 폴더 하위에 로그 폴더 경로 생성
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), this.projectName, "log"); // 앱 데이터 폴더 하위에 로그 폴더 경로 생성
         }
 
         /// <summary>
@@ -149,8 +124,8 @@ namespace logger
             {
                 for (int i = MaxFileCount - 1; i >= 0; i--) // 파일을 최신순으로 처리하기 위해 거꾸로 반복
                 {
-                    string currentFile = Path.Combine(curDirPath, $"{stringFileName}_{i}.log"); // 현재 파일 이름
-                    string nextFile = Path.Combine(curDirPath, $"{stringFileName}_{i + 1}.log"); // 다음 파일 이름
+                    string currentFile = Path.Combine(curDirPath, $"{projectName}_{i}.log"); // 현재 파일 이름
+                    string nextFile = Path.Combine(curDirPath, $"{projectName}_{i + 1}.log"); // 다음 파일 이름
 
                     if (File.Exists(currentFile)) // 현재 파일이 존재하면
                     {
@@ -165,8 +140,8 @@ namespace logger
                     }
                 }
 
-                string originalFile = Path.Combine(curDirPath, $"{stringFileName}.log"); // 원본 로그 파일 이름
-                string newFile = Path.Combine(curDirPath, $"{stringFileName}_0.log"); // 롤오버될 새로운 파일 이름
+                string originalFile = Path.Combine(curDirPath, $"{projectName}.log"); // 원본 로그 파일 이름
+                string newFile = Path.Combine(curDirPath, $"{projectName}_0.log"); // 롤오버될 새로운 파일 이름
 
                 if (File.Exists(originalFile)) // 원본 파일이 존재하면
                 {

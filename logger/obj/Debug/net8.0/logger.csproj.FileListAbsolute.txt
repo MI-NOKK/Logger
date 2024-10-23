@@ -1,0 +1,15 @@
+C:\dev\logger\logger\obj\Debug\net8.0\logger.GeneratedMSBuildEditorConfig.editorconfig
+C:\dev\logger\logger\obj\Debug\net8.0\logger.AssemblyInfoInputs.cache
+C:\dev\logger\logger\obj\Debug\net8.0\logger.AssemblyInfo.cs
+C:\dev\logger\logger\obj\Debug\net8.0\logger.csproj.CoreCompileInputs.cache
+C:\dev\logger\logger\obj\Debug\net8.0\logger.sourcelink.json
+C:\dev\logger\logger\bin\Debug\net8.0\logger.exe
+C:\dev\logger\logger\bin\Debug\net8.0\logger.deps.json
+C:\dev\logger\logger\bin\Debug\net8.0\logger.runtimeconfig.json
+C:\dev\logger\logger\bin\Debug\net8.0\logger.dll
+C:\dev\logger\logger\bin\Debug\net8.0\logger.pdb
+C:\dev\logger\logger\obj\Debug\net8.0\logger.dll
+C:\dev\logger\logger\obj\Debug\net8.0\refint\logger.dll
+C:\dev\logger\logger\obj\Debug\net8.0\logger.pdb
+C:\dev\logger\logger\obj\Debug\net8.0\logger.genruntimeconfig.cache
+C:\dev\logger\logger\obj\Debug\net8.0\ref\logger.dll
