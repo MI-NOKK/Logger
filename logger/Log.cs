@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace logger
 {
-    class Log : IDisposable // IDisposable 인터페이스를 구현하여 객체가 더 이상 사용되지 않을 때 리소스를 정리할 수 있도록 함
+    class Log
     {
         private readonly string stringFileName = "ProjectName"; // 로그 파일 이름을 저장하는 상수
         private readonly string projectName; // 로그를 남기는 프로젝트
@@ -178,36 +178,5 @@ namespace logger
         /// <summary>
         /// IDisposable 구현, 리소스를 정리하는 함수
         /// </summary>
-        public void Dispose()
-        {
-            Dispose(true); // 리소스 해제
-            GC.SuppressFinalize(this); // 가비지 컬렉터가 소멸자를 호출하지 않도록 함
-        }
-
-        /// <summary>
-        /// 리소스 해제를 처리하는 함수
-        /// </summary>
-        /// <param name="disposing"></param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposed) // 아직 해제되지 않은 경우
-            {
-                if (disposing) // 관리되는 리소스를 해제하는 경우
-                {
-                    // 현재는 해제할 관리되는 리소스가 없음
-                }
-
-                // 관리되지 않는 리소스를 해제
-                disposed = true; // 해제됨 플래그 설정
-            }
-        }
-
-        /// <summary>
-        /// 소멸자, Dispose를 호출하지 않고 객체가 소멸될 때 호출
-        /// </summary>
-        ~Log()
-        {
-            Dispose(false); // 관리되지 않는 리소스만 해제
-        }
     }
 }
