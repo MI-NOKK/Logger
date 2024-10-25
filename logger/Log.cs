@@ -149,9 +149,5 @@ namespace logger
                 }
             }
         }
-
-        /// <summary>
-        /// IDisposable 구현, 리소스를 정리하는 함수
-        /// </summary>
     }
 }
